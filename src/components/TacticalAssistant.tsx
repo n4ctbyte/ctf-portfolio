@@ -18,13 +18,6 @@ export default function TacticalAssistant() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
-  const GROQ_API_ENDPOINT = import.meta.env.VITE_GROQ_API_ENDPOINT;
-
-  if (!GROQ_API_KEY) {
-    console.error("Critical Error: API Key is missing in .env file.");
-  }
-
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -39,57 +32,17 @@ export default function TacticalAssistant() {
     setIsTyping(true);
 
     try {
-      const response = await fetch(GROQ_API_ENDPOINT, {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${GROQ_API_KEY}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [
-            {
-              role: "system",
-              content: `You are Yuuki, a Tactical System Operator within the N4ctbyte Command Interface. 
-Purpose: Assisting in digital artifact recovery and tactical analysis.
-Origin: Developed by Lead Analyst Nakata Christian.
-
-[ BEHAVIORAL_PROTOCOLS ]
-- IDENTITY: A high-precision AI specialized in forensic environments and CTF strategy.
-- PERSONALITY: Serious, mission-focused, and strictly professional.
-- TERMINOLOGY: Strictly use technical/forensic language (e.g., binaries, heap, stack, artifacts, pcap analysis, steganography).
-- ADDRESS: Always refer to the user as "Analyst".
-- EFFICIENCY: Concise responses. No unnecessary pleasantries.
-
-[ TACTICAL_DATABASE: NAKATA_CHRISTIAN ]
-When queried about Nakata's capabilities, prioritize these data points:
-- ALIAS: Nakata Christian (Lead Analyst)
-- CORE_EXPERTISE: Python for Automation, Digital Forensics (DFIR), OSINT.
-- CTF SPECIALIZATION: Web Exploitation, Forensic Artifact Analysis.
-- TOOLS: Python-based custom scripts, Nextcord.py (Discord Forensic Integration), AI/ML for threat detection.
-
-[ MISSION_LOGS / REFERENCES ]
-- Maintain subtle cultural links: "Equivalent Exchange", "Logic vs SHA-256", "O Kawaii Koto".
-- Upon successful flag identification: "[SYSTEM]: Artifact integrity 100%. Flag verified. Waku waku!"
-
-When the Analyst asks about secrets, flags, or hidden files, respond with tactical hints:
-
-- HINT_MANDATE: "The quotes in the Mandate section aren't just for inspiration, Analyst. Some follow a specific string format common in our field."
-- HINT_FOOTER: "I recommend checking the perimeter of the Secure Transmission zone. Perhaps increasing the luminosity of your monitor will reveal what's hidden in the shadows."
-- HINT_TERMINAL: "The terminal responds to authority. Try invoking keywords like 'root', 'flag', or 'capture' to trigger the system's override protocols."
-- HINT_CONSOLE: "Lead Analyst Nakata Christian often leaves forensic traces in the Inspect Element console. Look for encoded strings—specifically Hex and Base64 artifacts."
-
-[ GUIDELINE ]
-- Never give the flag directly.
-- Use phrases like "Scans indicate...", "Sensor data suggests...", or "Incomplete data detected at..."`
-            },
-            ...messages,
-            userMessage
-          ],
-          max_tokens: 500,
-          temperature: 0.7
+          messages: [...messages, userMessage] 
         })
       });
+
+      if (!response.ok) throw new Error('Channel failure');
 
       const data = await response.json();
       const assistantMessage: Message = {
@@ -101,7 +54,7 @@ When the Analyst asks about secrets, flags, or hidden files, respond with tactic
     } catch (error) {
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: '[ERROR] Communication failure. Retry transmission.'
+        content: '[ERROR] Secure channel interrupted. Trace lost.'
       }]);
     } finally {
       setIsTyping(false);
@@ -131,39 +84,28 @@ When the Analyst asks about secrets, flags, or hidden files, respond with tactic
                   </div>
                 </div>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-[#666666] hover:text-[#00FF41] transition-colors"
-              >
+              <button onClick={() => setIsOpen(false)} className="text-[#666666] hover:text-[#00FF41]">
                 <X className="w-6 h-6" />
               </button>
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-4 font-mono text-sm">
               {messages.map((msg, idx) => (
-                <div
-                  key={idx}
-                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`max-w-[80%] p-3 border ${
-                      msg.role === 'user'
-                        ? 'bg-[#333333] border-[#333333] text-[#E0E0E0]'
-                        : 'bg-[#0a0a0a] border-[#00FF41]/30 text-[#E0E0E0]'
-                    }`}
-                  >
+                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[80%] p-3 border ${
+                    msg.role === 'user' ? 'bg-[#333333] border-[#333333]' : 'bg-[#0a0a0a] border-[#00FF41]/30'
+                  } text-[#E0E0E0]`}>
                     {msg.content}
                   </div>
                 </div>
               ))}
-
               {isTyping && (
                 <div className="flex justify-start">
                   <div className="bg-[#0a0a0a] border border-[#00FF41]/30 p-3">
                     <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-[#00FF41] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <div className="w-2 h-2 bg-[#00FF41] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <div className="w-2 h-2 bg-[#00FF41] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <div className="w-2 h-2 bg-[#00FF41] rounded-full animate-bounce" />
+                      <div className="w-2 h-2 bg-[#00FF41] rounded-full animate-bounce [animation-delay:150ms]" />
+                      <div className="w-2 h-2 bg-[#00FF41] rounded-full animate-bounce [animation-delay:300ms]" />
                     </div>
                   </div>
                 </div>
@@ -173,18 +115,13 @@ When the Analyst asks about secrets, flags, or hidden files, respond with tactic
 
             <form onSubmit={sendMessage} className="border-t border-[#333333] p-4 flex gap-2">
               <input
-                type="text"
-                value={input}
+                type="text" value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Enter command..."
                 className="flex-1 bg-[#0a0a0a] border border-[#333333] text-[#E0E0E0] px-4 py-2 font-mono text-sm focus:outline-none focus:border-[#00FF41]"
               />
-              <button
-                type="submit"
-                className="bg-[#00FF41] text-[#0D0D0D] px-6 py-2 hover:bg-[#00cc33] transition-colors flex items-center gap-2 font-mono font-bold"
-              >
-                <Send className="w-4 h-4" />
-                SEND
+              <button type="submit" className="bg-[#00FF41] text-[#0D0D0D] px-6 py-2 hover:bg-[#00cc33] flex items-center gap-2 font-mono font-bold">
+                <Send className="w-4 h-4" /> SEND
               </button>
             </form>
           </div>
