@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
-}
-
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     font-family: 'Inter', sans-serif;
     background-color: #0D0D0D;
@@ -21,82 +21,9 @@ html {
 }
 
 @layer utilities {
-  .font-mono {
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .font-sans {
-    font-family: 'Inter', sans-serif;
-  }
-
-  .glitch {
-    position: relative;
-    animation: glitch 3s infinite;
-  }
-
-  @keyframes glitch {
-    0%, 90%, 100% {
-      transform: translate(0);
-    }
-    91% {
-      transform: translate(-2px, -2px);
-    }
-    92% {
-      transform: translate(2px, 2px);
-    }
-    93% {
-      transform: translate(-2px, 2px);
-    }
-    94% {
-      transform: translate(2px, -2px);
-    }
-  }
-
-  @keyframes pulse {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-  }
-
-  .flicker {
-    animation: flicker 0.15s infinite;
-  }
-
-  @keyframes flicker {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.8;
-    }
-  }
-
-  .hover-glitch:hover {
-    animation: glitch-hover 0.3s infinite;
-  }
-
-  @keyframes glitch-hover {
-    0%, 100% {
-      transform: translate(0);
-      filter: hue-rotate(0deg);
-    }
-    33% {
-      transform: translate(-1px, -1px);
-      filter: hue-rotate(90deg);
-    }
-    66% {
-      transform: translate(1px, 1px);
-      filter: hue-rotate(180deg);
-    }
-  }
-
   .redacted {
     background: #E0E0E0;
     color: transparent;
-    user-select: none;
     transition: all 0.3s ease;
   }
 
@@ -105,17 +32,120 @@ html {
     color: #E0E0E0;
   }
 
-  .terminal-cursor::after {
-    content: '▮';
-    animation: blink 1s infinite;
+  .hover-glitch:hover {
+    animation: glitch-hover 0.3s ease;
   }
 
-  @keyframes blink {
-    0%, 49% {
-      opacity: 1;
+  .terminal-cursor::after {
+    content: '▮';
+    animation: blink 1s step-end infinite;
+  }
+
+  .access-granted-overlay {
+    animation: flash-green 2s ease-in-out;
+  }
+
+  .hidden-flag {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #1a1a1a;
+    transition: color 0.3s ease;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  @media (prefers-color-scheme: light) {
+    .hidden-flag {
+      color: #00FF41;
     }
-    50%, 100% {
-      opacity: 0;
+  }
+
+  @media screen and (min-color-index: 0) and (-webkit-min-device-pixel-ratio: 0) {
+    @media (prefers-contrast: more) {
+      .hidden-flag {
+        color: #00FF41;
+      }
     }
+  }
+}
+
+@keyframes glitch {
+  0%, 100% {
+    transform: translate(0);
+  }
+  33% {
+    transform: translate(-2px, 2px);
+  }
+  66% {
+    transform: translate(2px, -2px);
+  }
+}
+
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes glitch-hover {
+  0%, 100% {
+    transform: translate(0) skew(0deg);
+  }
+  25% {
+    transform: translate(-2px, 2px) skew(2deg);
+  }
+  50% {
+    transform: translate(2px, -2px) skew(-2deg);
+  }
+  75% {
+    transform: translate(-1px, 1px) skew(1deg);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes flash-green {
+  0% {
+    background-color: transparent;
+  }
+  10% {
+    background-color: rgba(0, 255, 65, 0.8);
+  }
+  20% {
+    background-color: transparent;
+  }
+  30% {
+    background-color: rgba(0, 255, 65, 0.6);
+  }
+  40% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(0, 255, 65, 0.9);
+  }
+  60% {
+    background-color: transparent;
+  }
+  70% {
+    background-color: rgba(0, 255, 65, 0.5);
+  }
+  80% {
+    background-color: transparent;
+  }
+  90% {
+    background-color: rgba(0, 255, 65, 0.3);
+  }
+  100% {
+    background-color: transparent;
   }
 }

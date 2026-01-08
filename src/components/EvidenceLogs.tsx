@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, KeyboardEvent } from 'react';
-import { FileText, Folder, FolderOpen, ExternalLink, Terminal as TerminalIcon } from 'lucide-react';
+import { FileText, FolderOpen, ExternalLink, Terminal as TerminalIcon } from 'lucide-react';
 
 interface GitHubContent {
   name: string;
@@ -46,10 +46,6 @@ export default function EvidenceLogs() {
   useEffect(() => {
     fetchDirectoryContents(currentPath);
   }, [currentPath]);
-
-  useEffect(() => {
-    document.title = 'Evidence Logs';
-  }, []);
 
   useEffect(() => {
     if (outputRef.current) {
@@ -372,7 +368,6 @@ export default function EvidenceLogs() {
 
   const renderTerminalLine = (line: TerminalLine, index: number) => {
     let className = 'font-mono text-sm ';
-    let icon = null;
 
     switch (line.type) {
       case 'command':
@@ -400,116 +395,126 @@ export default function EvidenceLogs() {
   };
 
   return (
-    <div id="evidence" className="min-h-screen pt-20 bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-5xl">
-        <div className="flex items-center gap-3 mb-8 w-full justify-start">
+    <section 
+      id="evidence" 
+      className="min-h-screen w-full bg-[#0D0D0D] border-t border-[#333333] flex flex-col items-center justify-center p-4 md:p-6 scroll-mt-10"
+    >
+      <div className="w-full max-w-6xl mt-12"> {/* mt-12 untuk memberi jarak dari navbar yang fixed */}
+        <div className="flex items-center gap-3 mb-6 justify-start w-full">
           <FolderOpen className="w-6 h-6 text-[#00FF41]" />
           <h2 className="text-3xl font-mono font-bold text-[#E0E0E0]">
             [ EVIDENCE LOGS ]
           </h2>
         </div>
-        <div ref={terminalRef} className="bg-[#0D0D0D] border-2 border-[#00FF41] rounded-lg shadow-2xl shadow-green-500/20 overflow-hidden">
-          <div className="bg-[#1A1A1A] border-b border-[#00FF41] px-4 py-3 flex items-center justify-between">
+
+        {/* Terminal - Kita buat tingginya sedikit lebih besar agar gagah */}
+        <div 
+          ref={terminalRef} 
+          className="w-full bg-[#0D0D0D]/50 border-2 border-[#333333] rounded-lg shadow-2xl overflow-hidden hover:border-[#00FF41] transition-colors"
+        >
+          {/* Header Terminal */}
+          <div className="bg-[#1A1A1A] border-b border-[#333333] px-4 py-3 flex justify-between items-center">
             <div className="flex items-center gap-3">
               <TerminalIcon className="text-[#00FF41] w-5 h-5" />
-              <span className="font-mono text-[#E0E0E0] text-sm">
+              <span className="font-mono text-[#E0E0E0] text-xs sm:text-sm">
                 Session: <span className="text-[#00FF41]">analyst@remote_archive</span>
               </span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-[#00FF41] rounded-full animate-pulse" />
-              <span className="font-mono text-xs text-[#00FF41]">LIVE</span>
+              <span className="font-mono text-[10px] text-[#00FF41]">LIVE</span>
             </div>
           </div>
 
+          {/* Output Area - h-[450px] biasanya paling aman untuk layar laptop/monitor */}
           <div
             ref={outputRef}
-            className="h-[500px] overflow-y-auto p-4 space-y-1 custom-scrollbar"
+            className="h-[450px] overflow-y-auto p-4 space-y-1 custom-scrollbar bg-black/20"
             onClick={() => inputRef.current?.focus()}
           >
-            {terminalHistory.map((line, index) => renderTerminalLine(line, index))}
+              {terminalHistory.map((line, index) => renderTerminalLine(line, index))}
 
-            {isLoading && (
-              <div className="font-mono text-sm text-cyan-400 animate-pulse">
-                [SYSTEM]: Fetching data from remote archive...
+              {isLoading && (
+                <div className="font-mono text-sm text-cyan-400 animate-pulse">
+                  [SYSTEM]: Fetching data from remote archive...
+                </div>
+              )}
+
+              <div className="flex items-start sm:items-center gap-2 font-mono text-xs sm:text-sm flex-wrap">
+                <span className="text-[#00FF41] whitespace-nowrap">analyst@archive:{currentPath}$</span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  disabled={isTyping || isLoading}
+                  className="flex-1 min-w-[200px] bg-transparent text-[#E0E0E0] outline-none border-none caret-[#00FF41]"
+                />
               </div>
-            )}
-
-            <div className="flex items-center gap-2 font-mono text-sm">
-              <span className="text-[#00FF41]">analyst@archive:{currentPath}$</span>
-              <input
-                ref={inputRef}
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                disabled={isTyping || isLoading}
-                className="flex-1 bg-transparent text-[#E0E0E0] outline-none border-none caret-[#00FF41]"
-              />
             </div>
+          </div>
+
+          <div className="mt-4 w-full text-center">
+            <p className="font-mono text-xs text-gray-500 uppercase tracking-widest">
+              FORENSIC TERMINAL v2.1.4 | Authorized Access Only
+            </p>
           </div>
         </div>
 
-        <div className="mt-4 text-center">
-          <p className="font-mono text-xs text-gray-500">
-            FORENSIC TERMINAL v2.1.4 | Authorized Access Only
-          </p>
-        </div>
-      </div>
-
-      {modalContent && (
-        <div className="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50" onClick={() => setModalContent(null)}>
-          <div
-            className="bg-[#0D0D0D] border-2 border-[#00FF41] rounded-lg w-full max-w-4xl max-h-[80vh] overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="bg-[#1A1A1A] border-b border-[#00FF41] px-4 py-3 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <FileText className="text-[#00FF41] w-5 h-5" />
-                <span className="font-mono text-[#E0E0E0] text-sm">{modalContent.title}</span>
+        {modalContent && (
+          <div className="fixed inset-0 bg-black/95 flex items-center justify-center p-4 z-50" onClick={() => setModalContent(null)}>
+            <div
+              className="bg-[#0D0D0D] border-2 border-[#333333] rounded-lg w-full max-w-4xl max-h-[80vh] overflow-hidden shadow-[0_0_50px_rgba(0,255,65,0.1)]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="bg-[#1A1A1A] border-b border-[#333333] px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <FileText className="text-[#00FF41] w-5 h-5" />
+                  <span className="font-mono text-[#E0E0E0] text-sm break-all">{modalContent.title}</span>
+                </div>
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  <a
+                    href={modalContent.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-3 py-1 bg-[#00FF41] text-[#0D0D0D] font-mono text-xs rounded hover:bg-[#00cc33] transition-colors whitespace-nowrap font-bold"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    VIEW REPORT
+                  </a>
+                  <button
+                    onClick={() => setModalContent(null)}
+                    className="text-[#666666] hover:text-red-400 font-mono text-sm whitespace-nowrap transition-colors"
+                  >
+                    [ CLOSE ]
+                  </button>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <a
-                  href={modalContent.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-3 py-1 bg-[#00FF41] text-black font-mono text-xs rounded hover:bg-[#00DD33] transition-colors"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  View Full Report
-                </a>
-                <button
-                  onClick={() => setModalContent(null)}
-                  className="text-[#E0E0E0] hover:text-[#00FF41] font-mono text-sm"
-                >
-                  [X] CLOSE
-                </button>
+              <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(80vh-60px)] custom-scrollbar">
+                <pre className="font-mono text-xs sm:text-sm text-[#E0E0E0] whitespace-pre-wrap break-words">
+                  {modalContent.content}
+                </pre>
               </div>
-            </div>
-            <div className="p-6 overflow-y-auto max-h-[calc(80vh-60px)] custom-scrollbar">
-              <pre className="font-mono text-sm text-[#E0E0E0] whitespace-pre-wrap">
-                {modalContent.content}
-              </pre>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <style>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: #0D0D0D;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #00FF41;
-          border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #00DD33;
-        }
-      `}</style>
-    </div>
-  );
+        <style>{`
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #333333;
+            border-radius: 0px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #00FF41;
+          }
+        `}</style>
+      </section>
+    );
 }

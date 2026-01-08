@@ -1,54 +1,60 @@
 import { useState } from 'react';
-import { Menu, X, Terminal } from 'lucide-react';
+import { Terminal, Menu, X } from 'lucide-react';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { label: '[ SUBJECT_PROFILE ]', href: '#profile' },
-    { label: '[ CAPABILITIES ]', href: '#capabilities' },
-    { label: '[ EVIDENCE_LOGS ]', href: '#evidence' },
-    { label: '[ CONTACT ]', href: '#contact' },
+    { label: 'SUBJECT_PROFILE', href: '#profile' },
+    { label: 'MANDATE', href: '#mandate' },
+    { label: 'EVIDENCE_LOGS', href: '#evidence' },
+    { label: 'CONTACT', href: '#contact' }
   ];
 
   return (
-    <nav className="fixed w-full z-40 bg-[#0D0D0D] border-b border-[#333333]">
+    <nav className="fixed top-0 w-full bg-[#0D0D0D]/95 backdrop-blur-sm border-b border-[#333333] z-50">
       <div className="container mx-auto px-6 py-4">
-        <div className="flex justify-between items-center">
-          <a href="#" className="flex items-center gap-2 text-[#E0E0E0] font-mono hover:text-[#00FF41] transition-colors">
-            <Terminal className="w-5 h-5" />
-            <span className="text-lg">NAKATA_CHR</span>
+        <div className="flex items-center justify-between">
+          <a 
+            href="#" 
+            className="flex items-center gap-2 group transition-all duration-300"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            <Terminal className="w-6 h-6 text-[#00FF41] group-hover:scale-110 transition-transform" />
+            <span className="font-mono font-bold text-[#E0E0E0] text-lg tracking-tighter group-hover:text-[#00FF41]">
+              NAKATA_CHR
+            </span>
           </a>
 
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-[#E0E0E0] hover:text-[#00FF41] transition-colors"
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className="text-[#E0E0E0] hover:text-[#00FF41] transition-colors font-mono text-sm relative group"
+                className="font-mono text-sm text-[#666666] hover:text-[#00FF41] transition-colors relative group"
               >
                 {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#00FF41] transition-all group-hover:w-full" />
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#00FF41] group-hover:w-full transition-all duration-300" />
               </a>
             ))}
           </div>
+
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-[#00FF41]"
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
 
         {isOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-3 border-t border-[#333333] pt-4">
+          <div className="md:hidden mt-4 pb-4 space-y-4 border-t border-[#333333] pt-4">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className="block text-[#E0E0E0] hover:text-[#00FF41] transition-colors font-mono text-sm"
+                className="block font-mono text-sm text-[#666666] hover:text-[#00FF41] transition-colors"
               >
                 {item.label}
               </a>

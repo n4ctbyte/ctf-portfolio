@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import SubjectProfile from './components/SubjectProfile';
-import Capabilities from './components/Capabilities';
+import Capabilities from './components/Mandate';
 import EvidenceLogs from './components/EvidenceLogs';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -11,76 +11,71 @@ import ScanlineOverlay from './components/ScanlineOverlay';
 import BootSequence from './components/BootSequence';
 
 function App() {
-  const [isBooting, setIsBooting] = useState(true);
-  const [capturedKeys, setCapturedKeys] = useState('');
+  const [showBoot, setShowBoot] = useState(true);
+  const [keyBuffer, setKeyBuffer] = useState('');
+  const [showAccessGranted, setShowAccessGranted] = useState(false);
 
   useEffect(() => {
-    console.log('%c⚠ SYSTEM LOG: Unauthorized inspector detected. Welcome, Analyst.',
-      'background: #0D0D0D; color: #00FF41; font-size: 14px; padding: 10px; font-family: monospace; border: 1px solid #333333;');
-
-    console.log('%c[ENCODED_MSG]: VGhlIGJlc3Qgd2F5IHRvIHByZWRpY3QgdGhlIGZ1dHVyZSBpcyB0byBpbnZlbnQgaXQ=',
-      'color: #666666; font-family: monospace; font-size: 12px;');
-
-    console.log('%c[HEX]: 546865206f6e6c792077617920746f20646f2067726561742077b726b206973206c6f766520776861742070796f7520646f',
-      'color: #666666; font-family: monospace; font-size: 12px;');
-  }, []);
-
-  useEffect(() => {
-    if (!window.location.hash) {
-      window.scrollTo(0, 0);
-    }
+    console.log(
+      '%c[SYSTEM_INIT] Access granted to secure archive',
+      'color: #00FF41; font-family: monospace; font-size: 14px;'
+    );
+    console.log(
+      '%cV2VsY29tZSB0byB0aGUgZm9yZW5zaWMgYXJjaGl2ZS4gWW91ciBhY2Nlc3MgaGFzIGJlZW4gbG9nZ2VkLg==',
+      'color: #666; font-family: monospace;'
+    );
+    console.log(
+      '%c4e414b4154415f434852495354494e414e',
+      'color: #00FF41; font-family: monospace; font-weight: bold;'
+    );
   }, []);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      const newKeys = (capturedKeys + e.key).slice(-7);
-      setCapturedKeys(newKeys);
+      const newBuffer = (keyBuffer + e.key.toLowerCase()).slice(-10);
+      setKeyBuffer(newBuffer);
 
-      if (newKeys === 'capture' || newKeys.includes('root') || newKeys.includes('flag')) {
-        triggerSecretEffect(newKeys);
-        setCapturedKeys('');
+      const ctfKeywords = ['toor', 'flag', 'capture', 'root', 'hack', 'ctf', 'pwn', 'exploit'];
+      const hasMatch = ctfKeywords.some(keyword => newBuffer.includes(keyword));
+
+      if (hasMatch) {
+        setShowAccessGranted(true);
+        console.log(
+          '%c[SECURITY_ALERT] Easter egg triggered! Access sequence detected.',
+          'color: #00FF41; font-family: monospace; font-size: 16px; font-weight: bold;'
+        );
+        setTimeout(() => setShowAccessGranted(false), 2000);
+        setKeyBuffer('');
       }
     };
 
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [capturedKeys]);
-
-  const triggerSecretEffect = (keyword: string) => {
-    const overlay = document.createElement('div');
-    overlay.style.cssText = `
-      position: fixed;
-      inset: 0;
-      background: #00FF41;
-      opacity: 0.3;
-      z-index: 9999;
-      pointer-events: none;
-      animation: pulse 0.5s ease-out;
-    `;
-    document.body.appendChild(overlay);
-
-    console.log(`%c[ACCESS_GRANTED]: Keyword "${keyword}" detected. Clearance level elevated.`,
-      'background: #00FF41; color: #0D0D0D; font-weight: bold; padding: 5px; font-family: monospace;');
-
-    setTimeout(() => overlay.remove(), 500);
-  };
-
-  if (isBooting) {
-    return <BootSequence onComplete={() => setIsBooting(false)} />;
-  }
+    window.addEventListener('keypress', handleKeyPress);
+    return () => window.removeEventListener('keypress', handleKeyPress);
+  }, [keyBuffer]);
 
   return (
-    <div className="relative bg-[#0D0D0D] text-[#E0E0E0] min-h-screen font-sans">
-      <ScanlineOverlay />
-      <Navigation />
-      <Hero />
-      <SubjectProfile />
-      <Capabilities />
-      <EvidenceLogs />
-      <Contact />
-      <Footer />
-      <TacticalAssistant />
-    </div>
+    <>
+      {showBoot && <BootSequence onComplete={() => setShowBoot(false)} />}
+
+      {showAccessGranted && (
+        <div className="fixed inset-0 z-[9998] pointer-events-none flex items-center justify-center access-granted-overlay">
+          <div className="text-[#00FF41] text-6xl font-mono font-bold animate-pulse">
+            [ ACCESS GRANTED ]
+          </div>
+        </div>
+      )}
+
+      <div className="min-h-screen bg-[#0D0D0D] text-[#E0E0E0]">
+        <ScanlineOverlay />
+        <Navigation />
+        <Hero />
+        <SubjectProfile />
+        <Capabilities />
+        <EvidenceLogs />
+        <Contact />
+        <TacticalAssistant />
+      </div>
+    </>
   );
 }
 

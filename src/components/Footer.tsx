@@ -8,7 +8,9 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="border-t border-[#333333] py-8">
+    <footer className="relative border-t border-[#333333] py-8">
+      <div className="hidden-flag">N4CT{'{'}L1GHT5_UP{'}'}</div>
+
       <div className="container mx-auto px-6">
         <div className="flex flex-col items-center gap-4">
           <div className="flex gap-6">

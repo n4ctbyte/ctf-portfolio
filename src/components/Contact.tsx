@@ -1,22 +1,37 @@
 import { useState } from 'react';
-import { Send } from 'lucide-react';
+import { Send, Loader2, Github, Linkedin, Instagram } from 'lucide-react';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+  const socialLinks = [
+    { icon: Github, href: 'https://github.com/n4ctbyte', label: 'GitHub' },
+    { icon: Instagram, href: 'https://instagram.com/nakata_chr', label: 'Instagram' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/nakata-christian-31ba31335/', label: 'LinkedIn' },
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
 
     try {
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbyPSmGpZENko12My3z_s4kmmXw0CQ5H4yMt02PEDpHtVyYSfBMp0bcV3PBIeAdPCNXI/exec';
-      const formDataObj = new FormData();
-      formDataObj.append('name', formData.name);
-      formDataObj.append('email', formData.email);
-      formDataObj.append('message', formData.message);
+      await fetch(
+        'https://script.google.com/macros/s/AKfycbzQI5qwLVZPj9t3qJ43d7EcFO_vfG_3BXdCQ_S0u1RB5w-HqDxgBH-Y1XAkxJZ6UNpv/exec',
+        {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        }
+      );
 
-      await fetch(scriptURL, { method: 'POST', body: formDataObj });
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
 
@@ -28,87 +43,86 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 border-t border-[#333333]">
-      <div className="container mx-auto px-6">
+    <section id="contact" className="min-h-screen pt-28 pb-8 px-6 flex flex-col items-center justify-between border-t border-[#333333] bg-[#0D0D0D] scroll-mt-10">
+      
+      {/* BAGIAN FORM */}
+      <div className="max-w-2xl w-full">
         <div className="flex items-center gap-3 mb-8">
           <Send className="w-6 h-6 text-[#00FF41]" />
           <h2 className="text-3xl font-mono font-bold text-[#E0E0E0]">
-            [ CONTACT ]
+            [ SECURE TRANSMISSION ]
           </h2>
         </div>
 
-        <div className="max-w-2xl mx-auto">
-          <div className="font-mono text-sm text-[#666666] mb-6">
-            SECURE_CHANNEL // Encrypted communication protocol
-          </div>
-
-          {status === 'success' && (
-            <div className="mb-6 border border-[#00FF41] bg-[#00FF41]/10 p-4 font-mono text-sm text-[#00FF41]">
+        {status === 'success' && (
+          <div className="mb-6 p-4 border-2 border-[#00FF41] bg-[#00FF41]/10">
+            <p className="font-mono text-[#00FF41] text-center">
               [SUCCESS] Message transmitted successfully
-            </div>
-          )}
+            </p>
+          </div>
+        )}
 
-          <form onSubmit={handleSubmit} className="border border-[#333333] p-6 space-y-4">
+        <div className="bg-black/20 p-6 border-2 border-[#333333] hover:border-[#00FF41]/50 transition-colors">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block font-mono text-sm text-[#666666] mb-2">
-                NAME_FIELD
-              </label>
+              <label className="block font-mono text-[#666666] mb-1 text-xs uppercase">NAME_FIELD</label>
               <input
-                type="text"
-                value={formData.name}
+                type="text" required value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                className="w-full bg-[#0a0a0a] border border-[#333333] text-[#E0E0E0] px-4 py-3 font-mono focus:outline-none focus:border-[#00FF41] transition-colors"
-                placeholder="Enter identifier..."
+                className="w-full bg-[#0D0D0D] border-2 border-[#333333] p-2 font-mono text-[#E0E0E0] focus:border-[#00FF41] focus:outline-none text-sm"
+                placeholder="Enter designation..."
               />
             </div>
-
             <div>
-              <label className="block font-mono text-sm text-[#666666] mb-2">
-                EMAIL_ADDRESS
-              </label>
+              <label className="block font-mono text-[#666666] mb-1 text-xs uppercase">EMAIL_ADDRESS</label>
               <input
-                type="email"
-                value={formData.email}
+                type="email" required value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                className="w-full bg-[#0a0a0a] border border-[#333333] text-[#E0E0E0] px-4 py-3 font-mono focus:outline-none focus:border-[#00FF41] transition-colors"
-                placeholder="contact@domain.ext"
+                className="w-full bg-[#0D0D0D] border-2 border-[#333333] p-2 font-mono text-[#E0E0E0] focus:border-[#00FF41] focus:outline-none text-sm"
+                placeholder="Enter contact protocol..."
               />
             </div>
-
             <div>
-              <label className="block font-mono text-sm text-[#666666] mb-2">
-                MESSAGE_PAYLOAD
-              </label>
+              <label className="block font-mono text-[#666666] mb-1 text-xs uppercase">MESSAGE_PAYLOAD</label>
               <textarea
-                value={formData.message}
+                required value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                required
-                rows={5}
-                className="w-full bg-[#0a0a0a] border border-[#333333] text-[#E0E0E0] px-4 py-3 font-mono focus:outline-none focus:border-[#00FF41] transition-colors resize-none"
+                rows={4}
+                className="w-full bg-[#0D0D0D] border-2 border-[#333333] p-2 font-mono text-[#E0E0E0] focus:border-[#00FF41] focus:outline-none resize-none text-sm"
                 placeholder="Enter encrypted message..."
               />
             </div>
-
             <button
-              type="submit"
-              disabled={status === 'sending'}
-              className="w-full border border-[#333333] text-[#E0E0E0] px-6 py-3 hover:bg-[#00FF41] hover:text-[#0D0D0D] hover:border-[#00FF41] transition-all font-mono flex items-center justify-center gap-2 disabled:opacity-50"
+              type="submit" disabled={status === 'sending'}
+              className="w-full bg-[#00FF41] text-[#0D0D0D] py-3 font-mono font-bold hover:bg-[#00cc33] transition-all flex items-center justify-center gap-2"
             >
-              {status === 'sending' ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-[#E0E0E0] border-t-transparent rounded-full animate-spin" />
-                  TRANSMITTING...
-                </>
-              ) : (
-                <>
-                  <Send className="w-4 h-4" />
-                  SEND_MESSAGE
-                </>
-              )}
+              {status === 'sending' ? <Loader2 className="animate-spin w-4 h-4" /> : <Send className="w-4 h-4" />}
+              {status === 'sending' ? 'TRANSMITTING...' : 'SEND_TRANSMISSION'}
             </button>
           </form>
+        </div>
+      </div>
+
+      {/* BAGIAN FOOTER - Dioptimalkan agar lebih terlihat */}
+      <div className="w-full flex flex-col items-center gap-4 mt-auto pt-8 pb-4">
+        <div className="flex gap-6">
+          {socialLinks.map((social) => (
+            <a 
+              key={social.label} 
+              href={social.href} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-[#666666] hover:text-[#00FF41] transition-colors"
+            >
+              <social.icon className="w-5 h-5" />
+            </a>
+          ))}
+        </div>
+        <div className="font-mono text-[10px] text-[#666666] text-center tracking-widest leading-relaxed">
+          <div className="mb-1 uppercase">© 2025 NAKATA_CHRISTIAN // FORENSIC_ARCHIVE</div>
+          <div className="text-[#00FF41]/60 font-bold">
+            0x4E616B617461 • CLASSIFIED_LEVEL_4 • 2026
+          </div>
         </div>
       </div>
     </section>
