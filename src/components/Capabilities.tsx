@@ -11,7 +11,7 @@ const skills = [
 
 export default function Capabilities() {
   return (
-    <section id="capabilities" className="py-20 bg-[#0a0a0a] border-t border-[#333333]">
+    <section id="capabilities" className="min-h-screen flex flex-col items-center justify-center py-20 bg-[#0a0a0a] border-t border-[#333333]">
       <div className="container mx-auto px-6">
         <div className="flex items-center gap-3 mb-8">
           <Code2 className="w-6 h-6 text-[#00FF41]" />

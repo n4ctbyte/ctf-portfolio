@@ -26,6 +26,12 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
+  useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       const newKeys = (capturedKeys + e.key).slice(-7);
       setCapturedKeys(newKeys);
