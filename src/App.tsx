@@ -21,11 +21,11 @@ function App() {
       'color: #00FF41; font-family: monospace; font-size: 14px;'
     );
     console.log(
-      '%cV2VsY29tZSB0byB0aGUgZm9yZW5zaWMgYXJjaGl2ZS4gWW91ciBhY2Nlc3MgaGFzIGJlZW4gbG9nZ2VkLg==',
+      'aHR0cHM6Ly95b3V0dS5iZS9oUHItWWM5MnFhWT9zaT1PNE5VWldoTV80NDQ2eVlS',
       'color: #666; font-family: monospace;'
     );
     console.log(
-      '%c4e414b4154415f434852495354494e414e',
+      'c4e414b4154415f434852495354494e414e',
       'color: #00FF41; font-family: monospace; font-weight: bold;'
     );
   }, []);

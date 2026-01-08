@@ -43,10 +43,13 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="min-h-screen pt-28 pb-8 px-6 flex flex-col items-center justify-between border-t border-[#333333] bg-[#0D0D0D] scroll-mt-10">
+    <section id="contact" className="relative min-h-screen pt-28 pb-8 px-6 flex flex-col items-center justify-between border-t border-[#333333] bg-[#0D0D0D] scroll-mt-10">
+
+      <div className="absolute bottom-6 left-6 font-mono text-[10px] text-[#1A1A1A] opacity-40 hover:text-[#00FF41] hover:opacity-100 transition-all duration-500 cursor-default select-none z-0">
+        N4CT{'{'}L1GHT5_UP{'}'}
+      </div>
       
-      {/* BAGIAN FORM */}
-      <div className="max-w-2xl w-full">
+      <div className="max-w-2xl w-full relative z-10">
         <div className="flex items-center gap-3 mb-8">
           <Send className="w-6 h-6 text-[#00FF41]" />
           <h2 className="text-3xl font-mono font-bold text-[#E0E0E0]">
@@ -103,7 +106,6 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* BAGIAN FOOTER - Dioptimalkan agar lebih terlihat */}
       <div className="w-full flex flex-col items-center gap-4 mt-auto pt-8 pb-4">
         <div className="flex gap-6">
           {socialLinks.map((social) => (

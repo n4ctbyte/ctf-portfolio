@@ -193,7 +193,7 @@ export default function Capabilities() {
 
           <button 
             onClick={handleNext}
-            className="absolute right-0 md:-left-12 z-20 p-2 text-[#333333] hover:text-[#00FF41] transition-colors duration-300"
+            className="absolute right-0 md:-right-12 z-20 p-2 text-[#333333] hover:text-[#00FF41] transition-colors duration-300"
             aria-label="Next quote"
           >
             <ChevronRight className="w-10 h-10 md:w-12 md:h-12" />
