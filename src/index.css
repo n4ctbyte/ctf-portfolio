@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0D0D0D;
+    color: #E0E0E0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer utilities {
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .font-sans {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .glitch {
+    position: relative;
+    animation: glitch 3s infinite;
+  }
+
+  @keyframes glitch {
+    0%, 90%, 100% {
+      transform: translate(0);
+    }
+    91% {
+      transform: translate(-2px, -2px);
+    }
+    92% {
+      transform: translate(2px, 2px);
+    }
+    93% {
+      transform: translate(-2px, 2px);
+    }
+    94% {
+      transform: translate(2px, -2px);
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .flicker {
+    animation: flicker 0.15s infinite;
+  }
+
+  @keyframes flicker {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  .hover-glitch:hover {
+    animation: glitch-hover 0.3s infinite;
+  }
+
+  @keyframes glitch-hover {
+    0%, 100% {
+      transform: translate(0);
+      filter: hue-rotate(0deg);
+    }
+    33% {
+      transform: translate(-1px, -1px);
+      filter: hue-rotate(90deg);
+    }
+    66% {
+      transform: translate(1px, 1px);
+      filter: hue-rotate(180deg);
+    }
+  }
+
+  .redacted {
+    background: #E0E0E0;
+    color: transparent;
+    user-select: none;
+    transition: all 0.3s ease;
+  }
+
+  .redacted:hover {
+    background: transparent;
+    color: #E0E0E0;
+  }
+
+  .terminal-cursor::after {
+    content: '▮';
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 49% {
+      opacity: 1;
+    }
+    50%, 100% {
+      opacity: 0;
+    }
+  }
+}
