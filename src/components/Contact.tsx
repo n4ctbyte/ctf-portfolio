@@ -64,7 +64,7 @@ export default function Contact() {
         {status === 'success' && (
           <div className="mb-6 p-4 border-2 border-[#00FF41] bg-[#00FF41]/10">
             <p className="font-mono text-[#00FF41] text-center">
-              [SUCCESS] Message transmitted successfully to Nakata's Archive.
+              [SUCCESS] Message transmitted successfully to N4ctbyte's Archive.
             </p>
           </div>
         )}
