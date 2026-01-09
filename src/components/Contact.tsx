@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { Send, Loader2, Github, Linkedin, Instagram } from 'lucide-react';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   const socialLinks = [
@@ -19,24 +15,31 @@ export default function Contact() {
     e.preventDefault();
     setStatus('sending');
 
+    // Konversi data ke format URLSearchParams agar terbaca oleh e.parameter di GAS
+    const params = new URLSearchParams();
+    params.append('name', formData.name);
+    params.append('email', formData.email);
+    params.append('message', formData.message);
+
     try {
       await fetch(
-        'https://script.google.com/macros/s/AKfycbzQI5qwLVZPj9t3qJ43d7EcFO_vfG_3BXdCQ_S0u1RB5w-HqDxgBH-Y1XAkxJZ6UNpv/exec',
+        'https://script.google.com/macros/s/AKfycbw_AlMDrt0RRDa9Sc6ep1gL8MV7C1mUeN0401nKE1d7K6h0J4vyLGm_ElPXk5T03ntr/exec',
         {
           method: 'POST',
-          mode: 'no-cors',
+          mode: 'no-cors', // Diperlukan untuk Google Apps Script
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: JSON.stringify(formData)
+          body: params.toString(),
         }
       );
 
+      // Karena no-cors, kita asumsikan sukses jika fetch tidak throw error
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
-
       setTimeout(() => setStatus('idle'), 3000);
     } catch (error) {
+      console.error("Transmission Error:", error);
       setStatus('error');
       setTimeout(() => setStatus('idle'), 3000);
     }
@@ -44,11 +47,12 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative min-h-screen pt-28 pb-8 px-6 flex flex-col items-center justify-between border-t border-[#333333] bg-[#0D0D0D] scroll-mt-10">
-
+      
+      {/* EASTER EGG FLAG */}
       <div className="absolute bottom-6 left-6 font-mono text-[10px] text-[#1A1A1A] opacity-40 hover:text-[#00FF41] hover:opacity-100 transition-all duration-500 cursor-default select-none z-0">
         N4CT{'{'}L1GHT5_UP{'}'}
       </div>
-      
+
       <div className="max-w-2xl w-full relative z-10">
         <div className="flex items-center gap-3 mb-8">
           <Send className="w-6 h-6 text-[#00FF41]" />
@@ -60,7 +64,7 @@ export default function Contact() {
         {status === 'success' && (
           <div className="mb-6 p-4 border-2 border-[#00FF41] bg-[#00FF41]/10">
             <p className="font-mono text-[#00FF41] text-center">
-              [SUCCESS] Message transmitted successfully
+              [SUCCESS] Message transmitted successfully to Nakata's Archive.
             </p>
           </div>
         )}
@@ -109,13 +113,7 @@ export default function Contact() {
       <div className="w-full flex flex-col items-center gap-4 mt-auto pt-8 pb-4">
         <div className="flex gap-6">
           {socialLinks.map((social) => (
-            <a 
-              key={social.label} 
-              href={social.href} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-[#666666] hover:text-[#00FF41] transition-colors"
-            >
+            <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" className="text-[#666666] hover:text-[#00FF41] transition-colors">
               <social.icon className="w-5 h-5" />
             </a>
           ))}

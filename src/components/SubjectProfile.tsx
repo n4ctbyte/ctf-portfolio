@@ -97,7 +97,7 @@ export default function SubjectProfile() {
               !isRevealed ? 'blur-sm select-none' : ''
             }`}>
               <p>Subject is a meticulous forensic investigator specializing in deep-artifact recovery, OSINT, and Web Exploitation.</p>
-              <p>Expertly navigates various forensic suites for disk imaging, memory analysis, and artifact extraction, while developing custom Python automation to streamline the investigative process.</p>
+              <p>Navigates various forensic suites for disk imaging, memory analysis, and artifact extraction, while developing custom Python automation to streamline the investigative process.</p>
               <p>Driven by the complexity of digital puzzles, maintaining rigorous training via PicoCTF and TCP1P to master the DFIR pipeline and incident response protocols.</p>
             </div>
             <button
