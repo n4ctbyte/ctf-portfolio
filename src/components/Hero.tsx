@@ -56,7 +56,7 @@ export default function Hero() {
             <span className="font-mono text-[#00FF41] text-sm">SYSTEM STATUS</span>
           </div>
           <p className="font-mono text-[#E0E0E0] text-sm">
-            &gt; AUTHORIZED_ACCESS // Clearance Level: 5
+            &gt; AUTHORIZED_ACCESS // Clearance Level: 4
           </p>
         </div>
 
