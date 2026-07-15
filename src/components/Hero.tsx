@@ -7,7 +7,7 @@ export default function Hero() {
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(100);
 
-  const titles = ['CTF_FORENSICS', 'N4CTBYTE', 'WEEB', 'NAKATA CHRISTIAN'];
+  const titles = ['CTF_FORENSICS', 'N4CT', 'WEEB', 'NAKATA CHRISTIAN'];
 
   useEffect(() => {
     const handleTyping = () => {
