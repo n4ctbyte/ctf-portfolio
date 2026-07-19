@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { Terminal } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { Terminal } from "lucide-react";
 
 export default function Hero() {
-  const [displayText, setDisplayText] = useState('');
+  const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(100);
 
-  const titles = ['CTF_FORENSICS', 'N4CT', 'WEEB', 'NAKATA CHRISTIAN'];
+  const titles = ["CTF_FORENSICS", "N4CT", "WEEB", "NAKATA CHRISTIAN"];
 
   useEffect(() => {
     const handleTyping = () => {
@@ -17,14 +17,14 @@ export default function Hero() {
       setDisplayText(
         isDeleting
           ? fullText.substring(0, displayText.length - 1)
-          : fullText.substring(0, displayText.length + 1)
+          : fullText.substring(0, displayText.length + 1),
       );
 
       setTypingSpeed(isDeleting ? 50 : 100);
 
       if (!isDeleting && displayText === fullText) {
         setTimeout(() => setIsDeleting(true), 2000);
-      } else if (isDeleting && displayText === '') {
+      } else if (isDeleting && displayText === "") {
         setIsDeleting(false);
         setLoopNum(loopNum + 1);
       }
@@ -46,14 +46,16 @@ export default function Hero() {
             </h1>
           </div>
           <p className="text-lg sm:text-xl font-mono text-[#666666]">
-            Digital Forensic Analyst & CTF Enthusiast
+            Digital Forensic Analyst & CTF Player
           </p>
         </div>
 
         <div className="bg-[#0D0D0D] border-2 border-[#333333] p-6 mb-6">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-3 h-3 bg-[#00FF41] rounded-full animate-pulse" />
-            <span className="font-mono text-[#00FF41] text-sm">SYSTEM STATUS</span>
+            <span className="font-mono text-[#00FF41] text-sm">
+              SYSTEM STATUS
+            </span>
           </div>
           <p className="font-mono text-[#E0E0E0] text-sm">
             &gt; AUTHORIZED_ACCESS // Clearance Level: 4
