@@ -16,7 +16,24 @@ function App() {
   const [showBoot, setShowBoot] = useState(true);
   const [keyBuffer, setKeyBuffer] = useState("");
   const [showAccessGranted, setShowAccessGranted] = useState(false);
-  const [currentTab, setCurrentTab] = useState<TabType>("home");
+  const [currentTab, setCurrentTab] = useState<TabType>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get("page") as TabType;
+    return ["home", "writeups", "blog"].includes(page) ? page : "home";
+  });
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const page = params.get("page") as TabType;
+      setCurrentTab(
+        ["home", "writeups", "blog"].includes(page) ? page : "home",
+      );
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   useEffect(() => {
     console.log(
@@ -70,6 +87,9 @@ function App() {
   const handleNavigate = (tab: TabType, sectionId?: string) => {
     setCurrentTab(tab);
 
+    const newUrl = tab === "home" ? window.location.pathname : `?page=${tab}`;
+    window.history.pushState({}, "", newUrl);
+
     if (tab === "home") {
       if (sectionId) {
         setTimeout(() => {
@@ -88,8 +108,6 @@ function App() {
 
   return (
     <>
-      {/* {showBoot && <BootSequence onComplete={() => setShowBoot(false)} />} */}
-
       {showAccessGranted && (
         <div className="fixed inset-0 z-[9998] pointer-events-none flex items-center justify-center access-granted-overlay">
           <div className="text-[#00FF41] text-6xl font-mono font-bold animate-pulse">

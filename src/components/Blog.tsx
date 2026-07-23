@@ -89,6 +89,41 @@ export default function Blog() {
     setPosts(loadedPosts);
   }, []);
 
+  useEffect(() => {
+    if (posts.length > 0) {
+      const params = new URLSearchParams(window.location.search);
+      const postIdFromUrl = params.get("post");
+
+      if (postIdFromUrl) {
+        const matchedPost = posts.find((p) => p.id === postIdFromUrl);
+        if (matchedPost) {
+          setSelectedPost(matchedPost);
+        } else {
+          window.history.replaceState({}, "", "?page=blog");
+        }
+      }
+    }
+  }, [posts]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (posts.length === 0) return;
+
+      const params = new URLSearchParams(window.location.search);
+      const postIdFromUrl = params.get("post");
+
+      if (postIdFromUrl) {
+        const matchedPost = posts.find((p) => p.id === postIdFromUrl);
+        setSelectedPost(matchedPost || null);
+      } else {
+        setSelectedPost(null);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [posts]);
+
   const allTags = [
     "ALL",
     ...Array.from(new Set(posts.flatMap((post) => post.tags))),
@@ -119,7 +154,10 @@ export default function Blog() {
           <div className="w-full bg-[#121212] border-2 border-[#222222] rounded-xl overflow-hidden shadow-2xl animate-[fadeIn_0.3s_ease-in_forwards]">
             <div className="bg-[#1A1A1A] border-b border-[#222222] px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <button
-                onClick={() => setSelectedPost(null)}
+                onClick={() => {
+                  setSelectedPost(null);
+                  window.history.pushState({}, "", "?page=blog");
+                }}
                 className="flex items-center gap-2 text-sm font-mono text-gray-400 hover:text-[#00FF41] transition-colors w-fit"
               >
                 <ArrowLeft className="w-4 h-4" /> [ BACK TO LOGS ]
@@ -210,7 +248,11 @@ export default function Blog() {
                 {filteredPosts.map((post) => (
                   <article
                     key={post.id}
-                    onClick={() => setSelectedPost(post)}
+                    onClick={() => {
+                      setSelectedPost(post);
+                      const newUrl = `?page=blog&post=${post.id}`;
+                      window.history.pushState({}, "", newUrl);
+                    }}
                     className="bg-[#121212] border border-[#222222] hover:border-[#00FF41]/50 rounded-xl transition-all cursor-pointer group hover:bg-[#161616] overflow-hidden flex flex-col sm:flex-row shadow-lg"
                   >
                     <div className="w-full sm:w-64 h-48 sm:h-auto overflow-hidden shrink-0 border-b sm:border-b-0 sm:border-r border-[#222222] group-hover:border-[#00FF41]/30 transition-colors">
