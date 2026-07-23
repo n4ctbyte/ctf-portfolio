@@ -18,17 +18,23 @@ function App() {
   const [showAccessGranted, setShowAccessGranted] = useState(false);
   const [currentTab, setCurrentTab] = useState<TabType>(() => {
     const params = new URLSearchParams(window.location.search);
-    const page = params.get("page") as TabType;
-    return ["home", "writeups", "blog"].includes(page) ? page : "home";
+    const page = params.get("page");
+    if (page === "blogs" || page === "blog") return "blog";
+    if (page === "writeups") return "writeups";
+    return "home";
   });
 
   useEffect(() => {
     const handlePopState = () => {
       const params = new URLSearchParams(window.location.search);
-      const page = params.get("page") as TabType;
-      setCurrentTab(
-        ["home", "writeups", "blog"].includes(page) ? page : "home",
-      );
+      const page = params.get("page");
+      if (page === "blogs" || page === "blog") {
+        setCurrentTab("blog");
+      } else if (page === "writeups") {
+        setCurrentTab("writeups");
+      } else {
+        setCurrentTab("home");
+      }
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -87,7 +93,9 @@ function App() {
   const handleNavigate = (tab: TabType, sectionId?: string) => {
     setCurrentTab(tab);
 
-    const newUrl = tab === "home" ? window.location.pathname : `?page=${tab}`;
+    const urlParam = tab === "blog" ? "blogs" : tab;
+    const newUrl =
+      tab === "home" ? window.location.pathname : `?page=${urlParam}`;
     window.history.pushState({}, "", newUrl);
 
     if (tab === "home") {

@@ -99,7 +99,7 @@ export default function Blog() {
         if (matchedPost) {
           setSelectedPost(matchedPost);
         } else {
-          window.history.replaceState({}, "", "?page=blog");
+          window.history.replaceState({}, "", "?page=blogs");
         }
       }
     }
@@ -156,7 +156,7 @@ export default function Blog() {
               <button
                 onClick={() => {
                   setSelectedPost(null);
-                  window.history.pushState({}, "", "?page=blog");
+                  window.history.pushState({}, "", "?page=blogs");
                 }}
                 className="flex items-center gap-2 text-sm font-mono text-gray-400 hover:text-[#00FF41] transition-colors w-fit"
               >
@@ -250,7 +250,7 @@ export default function Blog() {
                     key={post.id}
                     onClick={() => {
                       setSelectedPost(post);
-                      const newUrl = `?page=blog&post=${post.id}`;
+                      const newUrl = `?page=blogs&post=${post.id}`;
                       window.history.pushState({}, "", newUrl);
                     }}
                     className="bg-[#121212] border border-[#222222] hover:border-[#00FF41]/50 rounded-xl transition-all cursor-pointer group hover:bg-[#161616] overflow-hidden flex flex-col sm:flex-row shadow-lg"
