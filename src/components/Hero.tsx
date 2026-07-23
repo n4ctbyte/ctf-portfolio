@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Terminal } from "lucide-react";
 
-export default function Hero() {
+interface HeroProps {
+  onNavigate: (tab: "home" | "writeups" | "blog", sectionId?: string) => void;
+}
+
+export default function Hero({ onNavigate }: HeroProps) {
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
@@ -35,7 +39,7 @@ export default function Hero() {
   }, [displayText, isDeleting, loopNum]);
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-6">
+    <section className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-6">
       <div className="max-w-4xl w-full">
         <div className="border-l-4 border-[#00FF41] pl-6 mb-8">
           <div className="flex items-center gap-3 mb-4">
@@ -62,12 +66,12 @@ export default function Hero() {
           </p>
         </div>
 
-        <a
-          href="#evidence"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF41] text-[#0D0D0D] font-mono font-bold hover:bg-[#00cc33] transition-colors"
+        <button
+          onClick={() => onNavigate("writeups")}
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF41] text-[#0D0D0D] font-mono font-bold hover:bg-[#00cc33] transition-colors cursor-pointer"
         >
           VIEW_EVIDENCE.log
-        </a>
+        </button>
       </div>
     </section>
   );

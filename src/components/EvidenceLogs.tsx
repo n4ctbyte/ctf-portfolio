@@ -127,9 +127,9 @@ export default function EvidenceLogs() {
   return (
     <section
       id="evidence"
-      className="min-h-screen w-full bg-[#0D0D0D] border-t border-[#333333] flex flex-col items-center py-16 p-4 md:p-6 text-[#E0E0E0]"
+      className="min-h-screen w-full bg-[#0D0D0D] flex flex-col items-center py-10 p-4 md:p-6 text-[#E0E0E0]"
     >
-      <div className="w-full max-w-5xl mt-8">
+      <div className="w-full max-w-5xl">
         <div className="flex items-center gap-3 mb-8">
           <FolderOpen className="w-8 h-8 text-[#00FF41]" />
           <h2 className="text-3xl font-mono font-bold tracking-tight">

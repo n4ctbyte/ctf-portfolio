@@ -4,16 +4,19 @@ import Hero from './components/Hero';
 import SubjectProfile from './components/SubjectProfile';
 import Capabilities from './components/Mandate';
 import EvidenceLogs from './components/EvidenceLogs';
+import Blog from './components/Blog';
 import Contact from './components/Contact';
-import Footer from './components/Footer';
 import TacticalAssistant from './components/TacticalAssistant';
 import ScanlineOverlay from './components/ScanlineOverlay';
 import BootSequence from './components/BootSequence';
+
+type TabType = 'home' | 'writeups' | 'blog';
 
 function App() {
   const [showBoot, setShowBoot] = useState(true);
   const [keyBuffer, setKeyBuffer] = useState('');
   const [showAccessGranted, setShowAccessGranted] = useState(false);
+  const [currentTab, setCurrentTab] = useState<TabType>('home');
 
   useEffect(() => {
     console.log(
@@ -53,6 +56,25 @@ function App() {
     return () => window.removeEventListener('keypress', handleKeyPress);
   }, [keyBuffer]);
 
+  const handleNavigate = (tab: TabType, sectionId?: string) => {
+    setCurrentTab(tab);
+
+    if (tab === 'home') {
+      if (sectionId) {
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       {showBoot && <BootSequence onComplete={() => setShowBoot(false)} />}
@@ -65,14 +87,25 @@ function App() {
         </div>
       )}
 
-      <div className="min-h-screen bg-[#0D0D0D] text-[#E0E0E0]">
+      <div className="min-h-screen bg-[#0D0D0D] text-[#E0E0E0] flex flex-col justify-between">
         <ScanlineOverlay />
-        <Navigation />
-        <Hero />
-        <SubjectProfile />
-        <Capabilities />
-        <EvidenceLogs />
-        <Contact />
+        <Navigation currentTab={currentTab} onNavigate={handleNavigate} />
+
+        <main className="flex-grow pt-16">
+          {currentTab === 'home' && (
+            <>
+              <Hero onNavigate={handleNavigate} />
+              <SubjectProfile />
+              <Capabilities />
+              <Contact />
+            </>
+          )}
+
+          {currentTab === 'writeups' && <EvidenceLogs />}
+
+          {currentTab === 'blog' && <Blog />}
+        </main>
+
         <TacticalAssistant />
       </div>
     </>
