@@ -1,35 +1,35 @@
-import { useEffect, useState } from 'react';
-import Navigation from './components/Navigation';
-import Hero from './components/Hero';
-import SubjectProfile from './components/SubjectProfile';
-import Capabilities from './components/Mandate';
-import EvidenceLogs from './components/EvidenceLogs';
-import Blog from './components/Blog';
-import Contact from './components/Contact';
-import TacticalAssistant from './components/TacticalAssistant';
-import ScanlineOverlay from './components/ScanlineOverlay';
-import BootSequence from './components/BootSequence';
+import { useEffect, useState } from "react";
+import Navigation from "./components/Navigation";
+import Hero from "./components/Hero";
+import SubjectProfile from "./components/SubjectProfile";
+import Capabilities from "./components/Mandate";
+import EvidenceLogs from "./components/EvidenceLogs";
+import Blog from "./components/Blog";
+import Contact from "./components/Contact";
+import TacticalAssistant from "./components/TacticalAssistant";
+import ScanlineOverlay from "./components/ScanlineOverlay";
+import BootSequence from "./components/BootSequence";
 
-type TabType = 'home' | 'writeups' | 'blog';
+type TabType = "home" | "writeups" | "blog";
 
 function App() {
   const [showBoot, setShowBoot] = useState(true);
-  const [keyBuffer, setKeyBuffer] = useState('');
+  const [keyBuffer, setKeyBuffer] = useState("");
   const [showAccessGranted, setShowAccessGranted] = useState(false);
-  const [currentTab, setCurrentTab] = useState<TabType>('home');
+  const [currentTab, setCurrentTab] = useState<TabType>("home");
 
   useEffect(() => {
     console.log(
-      '%c[SYSTEM_INIT] Access granted to secure archive',
-      'color: #00FF41; font-family: monospace; font-size: 14px;'
+      "%c[SYSTEM_INIT] Access granted to secure archive",
+      "color: #00FF41; font-family: monospace; font-size: 14px;",
     );
     console.log(
-      'aHR0cHM6Ly95b3V0dS5iZS9oUHItWWM5MnFhWT9zaT1PNE5VWldoTV80NDQ2eVlS',
-      'color: #666; font-family: monospace;'
+      "aHR0cHM6Ly95b3V0dS5iZS9oUHItWWM5MnFhWT9zaT1PNE5VWldoTV80NDQ2eVlS",
+      "color: #666; font-family: monospace;",
     );
     console.log(
-      'c4e414b4154415f434852495354494e414e',
-      'color: #00FF41; font-family: monospace; font-weight: bold;'
+      "c4e414b4154415f434852495354494e414e",
+      "color: #00FF41; font-family: monospace; font-weight: bold;",
     );
   }, []);
 
@@ -38,46 +38,57 @@ function App() {
       const newBuffer = (keyBuffer + e.key.toLowerCase()).slice(-10);
       setKeyBuffer(newBuffer);
 
-      const ctfKeywords = ['toor', 'flag', 'capture', 'root', 'hack', 'ctf', 'pwn', 'exploit'];
-      const hasMatch = ctfKeywords.some(keyword => newBuffer.includes(keyword));
+      const ctfKeywords = [
+        "toor",
+        "flag",
+        "capture",
+        "root",
+        "hack",
+        "ctf",
+        "pwn",
+        "exploit",
+      ];
+      const hasMatch = ctfKeywords.some((keyword) =>
+        newBuffer.includes(keyword),
+      );
 
       if (hasMatch) {
         setShowAccessGranted(true);
         console.log(
-          '%c[SECURITY_ALERT] Easter egg triggered! Access sequence detected.',
-          'color: #00FF41; font-family: monospace; font-size: 16px; font-weight: bold;'
+          "%c[SECURITY_ALERT] Easter egg triggered! Access sequence detected.",
+          "color: #00FF41; font-family: monospace; font-size: 16px; font-weight: bold;",
         );
         setTimeout(() => setShowAccessGranted(false), 2000);
-        setKeyBuffer('');
+        setKeyBuffer("");
       }
     };
 
-    window.addEventListener('keypress', handleKeyPress);
-    return () => window.removeEventListener('keypress', handleKeyPress);
+    window.addEventListener("keypress", handleKeyPress);
+    return () => window.removeEventListener("keypress", handleKeyPress);
   }, [keyBuffer]);
 
   const handleNavigate = (tab: TabType, sectionId?: string) => {
     setCurrentTab(tab);
 
-    if (tab === 'home') {
+    if (tab === "home") {
       if (sectionId) {
         setTimeout(() => {
           const element = document.getElementById(sectionId);
           if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            element.scrollIntoView({ behavior: "smooth" });
           }
         }, 100);
       } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   return (
     <>
-      {showBoot && <BootSequence onComplete={() => setShowBoot(false)} />}
+      {/* {showBoot && <BootSequence onComplete={() => setShowBoot(false)} />} */}
 
       {showAccessGranted && (
         <div className="fixed inset-0 z-[9998] pointer-events-none flex items-center justify-center access-granted-overlay">
@@ -92,7 +103,7 @@ function App() {
         <Navigation currentTab={currentTab} onNavigate={handleNavigate} />
 
         <main className="flex-grow pt-16">
-          {currentTab === 'home' && (
+          {currentTab === "home" && (
             <>
               <Hero onNavigate={handleNavigate} />
               <SubjectProfile />
@@ -101,9 +112,9 @@ function App() {
             </>
           )}
 
-          {currentTab === 'writeups' && <EvidenceLogs />}
+          {currentTab === "writeups" && <EvidenceLogs />}
 
-          {currentTab === 'blog' && <Blog />}
+          {currentTab === "blog" && <Blog />}
         </main>
 
         <TacticalAssistant />

@@ -40,7 +40,7 @@ export default function Blog() {
       const rawContent = mdFiles[path] as string;
       const fileName = path.split("/").pop()?.replace(".md", "") || "unknown";
 
-      const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
+      const frontmatterRegex = /---\s*[\r\n]+([\s\S]*?)[\r\n]+---/;
       const match = rawContent.match(frontmatterRegex);
 
       const meta: Record<string, string> = {
@@ -58,7 +58,7 @@ export default function Blog() {
         const frontmatter = match[1];
         content = rawContent.replace(match[0], "").trim();
 
-        frontmatter.split("\n").forEach((line) => {
+        frontmatter.split(/\r?\n/).forEach((line) => {
           const colonIdx = line.indexOf(":");
           if (colonIdx !== -1) {
             const key = line.slice(0, colonIdx).trim();
@@ -137,12 +137,12 @@ export default function Blog() {
             </div>
 
             {selectedPost.image && (
-              <div className="w-full h-48 md:h-72 border-b border-[#222222] overflow-hidden relative">
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121212] to-transparent z-10" />
+              <div className="w-full border-b border-[#222222] overflow-hidden relative flex justify-center bg-[#0A0A0A]">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent z-10 pointer-events-none" />
                 <img
                   src={selectedPost.image}
                   alt={selectedPost.title}
-                  className="w-full h-full object-cover opacity-60"
+                  className="w-full max-h-[500px] object-contain opacity-90 py-2"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =
                       "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800";
