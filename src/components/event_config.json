@@ -1,0 +1,42 @@
+{
+  "broncoctf-2026": {
+    "title": "Bronco CTF 2026",
+    "description": "My writeups for Bronco CTF 2026 challenges",
+    "image": "/ctf-logo/bronco-ctf-2026.png"
+  },
+  "b01lers-ctf-2026": {
+    "title": "b01lers CTF 2026",
+    "description": "My writeups for b01lers CTF 2026 challenges",
+    "image": "/ctf-logo/b01lers-ctf-2026.png"
+  },
+  "byuctf-2026": {
+    "title": "BYUCTF 2026",
+    "description": "My writeups for BYUCTF 2026 challenges",
+    "image": "/ctf-logo/byu-ctf-2026.png"
+  },
+  "plfanzen-ctf-2026": {
+    "title": "plfanzen CTF 2026",
+    "description": "My writeups for plfanzen CTF 2026 challenges",
+    "image": "/ctf-logo/plfanzen-ctf-2026.png"
+  },
+  "umdctf-2026": {
+    "title": "UMDCTF 2026",
+    "description": "My writeups for UMDCTF 2026 challenges",
+    "image": "/ctf-logo/umd-ctf-2026.png"
+  },
+  "picoCTF 2026": {
+    "title": "picoCTF 2026",
+    "description": "My writeups for picoCTF 2026 challenges",
+    "image": "/ctf-logo/pico-ctf-2026.png"
+  },
+  "vincooctf": {
+    "title": "Vincoo CTF",
+    "description": "My writeups for a community event Vincoo CTF challenges",
+    "image": "/ctf-logo/vincoo-ctf.png"
+  },
+  "discovered-vulnerabilities.md": {
+    "title": "Discovered Vulnerabilities (CVEs)",
+    "description": "List of CVE(s) that I found",
+    "image": "/ctf-logo/cve.png"
+  }
+}

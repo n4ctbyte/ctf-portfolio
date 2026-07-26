@@ -6,6 +6,8 @@ image: /blog-images/yuuki-konno.png
 excerpt: From high school lockdown to Discord bot, surviving an identity crisis in university, and discovering my passion in Digital Forensics
 ---
 
+# Hello World! How I Stumbled into Cybersecurity and Why I Started Writing
+
 ## Hello World!
 
 Okay so, hi there! I don't know how you found this blog but enjoy! This is my first post on this blog so let's get started! Actually idk what to write for my first post and suddenly, I thought of something. Why not make like a "hello world" for my blog? So that is where this post comes from. I want to talk about myself, how I got into cybersecurity, and why I started writing a blog.
