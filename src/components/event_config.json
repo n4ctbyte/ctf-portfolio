@@ -1,32 +1,32 @@
 {
   "broncoctf-2026": {
     "title": "Bronco CTF 2026",
-    "description": "My writeups for Bronco CTF 2026 challenges",
+    "description": "My writeups for Bronco CTF 2026 hosted by Santa Clara University challenges",
     "image": "/ctf-logo/bronco-ctf-2026.png"
   },
   "b01lers-ctf-2026": {
     "title": "b01lers CTF 2026",
-    "description": "My writeups for b01lers CTF 2026 challenges",
+    "description": "My writeups for b01lers CTF 2026 hosted by Purdue University's b01lers team challenges",
     "image": "/ctf-logo/b01lers-ctf-2026.png"
   },
   "byuctf-2026": {
     "title": "BYUCTF 2026",
-    "description": "My writeups for BYUCTF 2026 challenges",
+    "description": "My writeups for BYUCTF 2026 hosted by Brigham Young University's BYU Cyberia challenges",
     "image": "/ctf-logo/byu-ctf-2026.png"
   },
   "plfanzen-ctf-2026": {
     "title": "plfanzen CTF 2026",
-    "description": "My writeups for plfanzen CTF 2026 challenges",
+    "description": "My writeups for plfanzen CTF 2026 hosted by plfanzen challenges",
     "image": "/ctf-logo/plfanzen-ctf-2026.png"
   },
   "umdctf-2026": {
     "title": "UMDCTF 2026",
-    "description": "My writeups for UMDCTF 2026 challenges",
+    "description": "My writeups for UMDCTF 2026 hosted by University of Maryland Cybersecurity Club challenges",
     "image": "/ctf-logo/umd-ctf-2026.png"
   },
   "picoCTF 2026": {
     "title": "picoCTF 2026",
-    "description": "My writeups for picoCTF 2026 challenges",
+    "description": "My writeups for picoCTF 2026 hosted by CyLab Security and Privacy Institute at Carnegie Mellon University challenges",
     "image": "/ctf-logo/pico-ctf-2026.png"
   },
   "vincooctf": {
