@@ -1,4 +1,9 @@
 {
+  "0xv01d-ctf-2026-v2": {
+    "title": "0xV01D CTF 2026 V2",
+    "description": "My writeups for Bronco CTF 2026 hosted by Santa Clara University challenges",
+    "image": "/ctf-logo/bronco-ctf-2026.png"
+  },
   "broncoctf-2026": {
     "title": "Bronco CTF 2026",
     "description": "My writeups for Bronco CTF 2026 hosted by Santa Clara University challenges",
