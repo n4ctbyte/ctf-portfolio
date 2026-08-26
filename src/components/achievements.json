@@ -3,20 +3,20 @@
     "event": "RITSEC CTF 2026",
     "team": "TCP1P",
     "place": "3RD",
-    "date": "2025-04-07",
+    "date": "2026-04-07",
     "issuedBy": "Rochester Institute of Technology"
   },
   {
     "event": "BYUCTF 2026",
     "team": "TCP1P",
-    "place": "11th",
+    "place": "11TH",
     "date": "2026-05-31",
     "issuedBy": "Brigham Young University"
   },
   {
     "event": "BroncoCTF 2026",
     "team": "TCP1P",
-    "place": "18th (Fully Solved)",
+    "place": "18TH (Fully Solved)",
     "date": "2026-07-12",
     "issuedBy": "Santa Clara University"
   }
