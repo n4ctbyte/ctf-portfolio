@@ -14,6 +14,7 @@ export default function Navigation({
 
   const navItems = [
     { label: "Profile", tab: "home" as const, sectionId: "profile" },
+    { label: "Achievements", tab: "home" as const, sectionId: "achievements" },
     { label: "Mandate", tab: "home" as const, sectionId: "mandate" },
     { label: "Writeups", tab: "writeups" as const },
     { label: "Blog", tab: "blog" as const },
