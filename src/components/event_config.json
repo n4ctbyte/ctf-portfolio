@@ -1,4 +1,9 @@
 {
+  "brunner-ctf-2026": {
+    "title": "BrunnerCTF 2026",
+    "description": "My writeups for BrunnerCTF 2026 hosted by Southern Denmark University's Brunnerne",
+    "image": "/ctf-logo/0xv01d.png"
+  },
   "0xv01d-ctf-2026-v2": {
     "title": "0xV01D CTF 2026 V2",
     "description": "My writeups for 0xV01D CTF 2026 v2 hosted by 0xV01D CTF team",
@@ -6,7 +11,7 @@
   },
   "broncoctf-2026": {
     "title": "Bronco CTF 2026",
-    "description": "My writeups for Bronco CTF 2026 hosted by Santa Clara University",
+    "description": "My writeups for Bronco CTF 2026 hosted by Santa Clara University's BroncoSec",
     "image": "/ctf-logo/bronco-ctf-2026.png"
   },
   "b01lers-ctf-2026": {
