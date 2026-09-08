@@ -42,7 +42,10 @@ const DEFAULT_DESC =
   "Explore challenges, exploits, and full writeup documentation for this event.";
 
 export default function EvidenceLogs() {
-  const [currentPath, setCurrentPath] = useState("/");
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("path") || "/";
+  });
   const [currentDirContents, setCurrentDirContents] = useState<GitHubContent[]>(
     [],
   );
@@ -55,6 +58,67 @@ export default function EvidenceLogs() {
   const [searchQuery, setSearchQuery] = useState("");
   const [eventTags, setEventTags] = useState<Record<string, string[]>>({});
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  const fetchFileContent = async (dirPath: string, fileName: string) => {
+    setIsFileLoading(true);
+    const cleanDirPath = dirPath === "/" ? "" : dirPath;
+    const rawUrl = `https://raw.githubusercontent.com/n4ctbyte/ctf-writeups/main${cleanDirPath}/${fileName}`;
+    try {
+      const response = await fetch(rawUrl);
+      if (response.ok) {
+        const rawContent = await response.text();
+        setSelectedFile({ title: fileName, content: rawContent });
+      } else {
+        setSelectedFile(null);
+      }
+    } catch (error) {
+      console.error(error);
+      setSelectedFile(null);
+    } finally {
+      setIsFileLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const syncWithUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      const pathFromUrl = params.get("path") || "/";
+      const fileFromUrl = params.get("file");
+
+      setCurrentPath(pathFromUrl);
+
+      if (fileFromUrl) {
+        fetchFileContent(pathFromUrl, fileFromUrl);
+      } else {
+        setSelectedFile(null);
+      }
+    };
+
+    const originalPushState = window.history.pushState;
+    const originalReplaceState = window.history.replaceState;
+
+    window.history.pushState = function (...args) {
+      originalPushState.apply(this, args);
+      window.dispatchEvent(new Event("locationchange"));
+    };
+
+    window.history.replaceState = function (...args) {
+      originalReplaceState.apply(this, args);
+      window.dispatchEvent(new Event("locationchange"));
+    };
+
+    syncWithUrl();
+
+    window.addEventListener("popstate", syncWithUrl);
+    window.addEventListener("locationchange", syncWithUrl);
+
+    return () => {
+      window.history.pushState = originalPushState;
+      window.history.replaceState = originalReplaceState;
+      window.removeEventListener("popstate", syncWithUrl);
+      window.removeEventListener("locationchange", syncWithUrl);
+    };
+  }, []);
 
   useEffect(() => {
     fetchDirectoryContents(currentPath);
@@ -193,9 +257,21 @@ export default function EvidenceLogs() {
       const response = await fetch(url);
       if (response.ok) {
         const data: GitHubContent[] = await response.json();
-        const sortedData = data.sort(
-          (a, b) => (b.type === "dir" ? 1 : 0) - (a.type === "dir" ? 1 : 0),
-        );
+        const configOrder = Object.keys(CUSTOM_CONFIG);
+
+        const sortedData = data.sort((a, b) => {
+          if (path === "/") {
+            const indexA = configOrder.indexOf(a.name);
+            const indexB = configOrder.indexOf(b.name);
+
+            if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+            if (indexA !== -1) return -1;
+            if (indexB !== -1) return 1;
+          }
+
+          return (b.type === "dir" ? 1 : 0) - (a.type === "dir" ? 1 : 0);
+        });
+
         setCurrentDirContents(sortedData);
         saveToCache(path, sortedData);
       } else {
@@ -213,26 +289,40 @@ export default function EvidenceLogs() {
     const newPath =
       currentPath === "/" ? `/${dirName}` : `${currentPath}/${dirName}`;
     setCurrentPath(newPath);
+    setSelectedFile(null);
+
+    const newUrl = `?page=writeups&path=${encodeURIComponent(newPath)}`;
+    window.history.pushState({}, "", newUrl);
   };
 
   const handleBackClick = () => {
     if (currentPath === "/") return;
     const newPath = currentPath.split("/").slice(0, -1).join("/") || "/";
     setCurrentPath(newPath);
+    setSelectedFile(null);
+
+    const newUrl =
+      newPath === "/"
+        ? "?page=writeups"
+        : `?page=writeups&path=${encodeURIComponent(newPath)}`;
+    window.history.pushState({}, "", newUrl);
   };
 
   const handleFileClick = async (file: GitHubContent) => {
-    if (!file.download_url) return;
-    setIsFileLoading(true);
-    try {
-      const response = await fetch(file.download_url);
-      const rawContent = await response.text();
-      setSelectedFile({ title: file.name, content: rawContent });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsFileLoading(false);
-    }
+    const newUrl = `?page=writeups&path=${encodeURIComponent(
+      currentPath,
+    )}&file=${encodeURIComponent(file.name)}`;
+    window.history.pushState({}, "", newUrl);
+    fetchFileContent(currentPath, file.name);
+  };
+
+  const handleBackToFiles = () => {
+    setSelectedFile(null);
+    const newUrl =
+      currentPath === "/"
+        ? "?page=writeups"
+        : `?page=writeups&path=${encodeURIComponent(currentPath)}`;
+    window.history.pushState({}, "", newUrl);
   };
 
   const toggleTag = (tag: string) => {
@@ -281,7 +371,7 @@ export default function EvidenceLogs() {
           <div className="w-full bg-[#121212] border-2 border-[#222222] rounded-xl overflow-hidden shadow-2xl animate-[fadeIn_0.3s_ease-in_forwards]">
             <div className="bg-[#1A1A1A] border-b border-[#222222] px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <button
-                onClick={() => setSelectedFile(null)}
+                onClick={handleBackToFiles}
                 className="flex items-center gap-2 text-sm font-mono text-gray-400 hover:text-[#00FF41] transition-colors w-fit"
               >
                 <ArrowLeft className="w-4 h-4" /> [ BACK TO FILES ]
