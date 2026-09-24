@@ -1,7 +1,12 @@
 {
+  "07ctf-2026": {
+    "title": "07CTF 2026",
+    "description": "My writeups for 07CTF 2026 hosted by team 0bscuri7y",
+    "image": "/ctf-logo/07ctf.png"
+  },
   "brunner-ctf-2026": {
     "title": "BrunnerCTF 2026",
-    "description": "My writeups for BrunnerCTF 2026 hosted by Southern Denmark University's Brunnerne",
+    "description": "My writeups for BrunnerCTF 2026 hosted by Southern Denmark University",
     "image": "/ctf-logo/brunner-ctf.png"
   },
   "0xv01d-ctf-2026-v2": {
@@ -11,27 +16,27 @@
   },
   "broncoctf-2026": {
     "title": "Bronco CTF 2026",
-    "description": "My writeups for Bronco CTF 2026 hosted by Santa Clara University's BroncoSec",
+    "description": "My writeups for Bronco CTF 2026 hosted by Santa Clara University",
     "image": "/ctf-logo/bronco-ctf-2026.png"
   },
   "b01lers-ctf-2026": {
     "title": "b01lers CTF 2026",
-    "description": "My writeups for b01lers CTF 2026 hosted by Purdue University's b01lers team",
+    "description": "My writeups for b01lers CTF 2026 hosted by Purdue University",
     "image": "/ctf-logo/b01lers-ctf-2026.png"
   },
   "byuctf-2026": {
     "title": "BYUCTF 2026",
-    "description": "My writeups for BYUCTF 2026 hosted by Brigham Young University's BYU Cyberia",
+    "description": "My writeups for BYUCTF 2026 hosted by Brigham Young University",
     "image": "/ctf-logo/byu-ctf-2026.png"
   },
   "plfanzen-ctf-2026": {
     "title": "plfanzen CTF 2026",
-    "description": "My writeups for plfanzen CTF 2026 hosted by plfanzen",
+    "description": "My writeups for plfanzen CTF 2026 hosted by team plfanzen",
     "image": "/ctf-logo/plfanzen-ctf-2026.png"
   },
   "umdctf-2026": {
     "title": "UMDCTF 2026",
-    "description": "My writeups for UMDCTF 2026 hosted by University of Maryland Cybersecurity Club",
+    "description": "My writeups for UMDCTF 2026 hosted by University of Maryland",
     "image": "/ctf-logo/umd-ctf-2026.png"
   },
   "picoCTF 2026": {
