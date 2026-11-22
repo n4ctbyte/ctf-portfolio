@@ -11,7 +11,7 @@ export default function Hero({ onNavigate }: HeroProps) {
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(100);
 
-  const titles = ["N4CT", "FORENSICS", "WEEB", "NAKATA CHRISTIAN"];
+  const titles = ["N4CT", "CTF", "WEEB", "NAKATA CHRISTIAN"];
 
   useEffect(() => {
     const handleTyping = () => {
@@ -50,7 +50,7 @@ export default function Hero({ onNavigate }: HeroProps) {
             </h1>
           </div>
           <p className="text-lg sm:text-xl font-mono text-[#666666]">
-            Digital Forensic Analyst & CTF Player
+            CTF Player
           </p>
         </div>
 
