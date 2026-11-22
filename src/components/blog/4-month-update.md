@@ -20,6 +20,8 @@ I'm still actively playing CTFs every weekend with TCP1P, and in September, we g
 
 During those 4 months, I also got 2 CVEs, CVE-2026-13332 (9.1 by CISA-ADP) and CVE-2026-93779 (6.5 by Wordfence), which was also my first paid bounty! It felt so good to earn money by yourself while in college. I also switched my niche in CTF from Forensics to OSINT (Open Source Intelligence). Actually, I didn't completely leave Forensics, I just shifted my focus. Now I play CTFs with OSINT as my primary category and Forensics as my secondary category. Why? Idk, I just feel like I enjoy CTFs more when I play OSINT instead of Forensics. And I also love to shock my friends with my OSINT skills, especially GEOINT hahah.
 
+![Paid Bounty Mail](/blog-images/2/bounty.jpeg)
+
 That's all for my CTF life. Let's see what's up with my college life!
 
 ## College Life
