@@ -1,12 +1,12 @@
 {
   "platypwn-ctf-2026": {
     "title": "Platypwn 2026",
-    "description": "My writeups for 07CTF 2026 hosted by Platypwnies",
-    "image": "/ctf-logo/hitcon-2026.png"
+    "description": "My writeups for Platypwn 2026 hosted by Platypwnies",
+    "image": "/ctf-logo/platypwn-2026.png"
   },
   "hitcon-2026": {
     "title": "HITCON 2026",
-    "description": "My writeups for 07CTF 2026 hosted by HITCON",
+    "description": "My writeups for HITCON 2026 hosted by HITCON",
     "image": "/ctf-logo/hitcon-2026.png"
   },
   "07ctf-2026": {
