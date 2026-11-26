@@ -9,6 +9,7 @@ import Blog from "./components/Blog";
 import Contact from "./components/Contact";
 import TacticalAssistant from "./components/TacticalAssistant";
 import ScanlineOverlay from "./components/ScanlineOverlay";
+import { Analytics } from "@vercel/analytics/react";
 
 type TabType = "home" | "writeups" | "blog";
 
@@ -133,6 +134,7 @@ function App() {
 
         <TacticalAssistant />
       </div>
+      <Analytics />
     </>
   );
 }
